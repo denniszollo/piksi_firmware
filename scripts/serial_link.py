@@ -279,7 +279,7 @@ def default_log_json_callback(handle):
   ref_time = time.time()
   return lambda data: handle.write(json.dumps(format_log_json_entry(ref_time, data)) + '\n')
 
-def generate_log_filename():
+def generate_log_postfix():
   """
   Generates a consistent filename for logging, for example:
   serial_link_log_20141125-140552.log
@@ -289,7 +289,7 @@ def generate_log_filename():
   filename : str
 
   """
-  return time.strftime("serial_link_log_%Y%m%d-%H%M%S.log")
+  return time.strftime("%Y%b%d-%H%M%S.log")
 
 def format_log_entry(t0, item):
   """
@@ -405,6 +405,9 @@ if __name__ == "__main__":
   parser.add_argument("-r", "--reset",
                       action="store_true",
                       help="reset device after connection.")
+  parser.add_argument("-n", "--log_file_name",
+                      default=["serial_link_log_"], nargs=1,
+                      help="Specify a prefix for logfile")
   args = parser.parse_args()
   serial_port = args.port[0]
   baud = args.baud[0]
@@ -412,9 +415,12 @@ if __name__ == "__main__":
                     print_unhandled=args.verbose)
   link.add_callback(SBP_MSG_PRINT, default_print_callback)
   # Setup logging
+  log_file_prefix = args.log_file_name[0]
   log_file = None
   if args.log:
-    log_name = generate_log_filename()
+    log_name = generate_log_postfix()
+    if log_file_prefix:
+      log_name=log_file_prefix+log_name
     log_file = open(log_name, 'w+')
     print "Logging at %s." % log_name
     if args.json:
