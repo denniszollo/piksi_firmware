@@ -30,8 +30,8 @@ v0.20 <a name="v0.20"></a>
     * SBP_MSG_EPHEMERIS
     * SBP_MSG_TRACKING_STATE
  * Add sanity check for user entered base station position upon broadcast of location
-* Change tracking threshold to 31 db-hz to help maintain track
-* Fix known bug where Piksi could operate incorrectly during GPS week rollover
+ * Change tracking threshold to 31 db-hz to help maintain track
+ * Fix known bug where Piksi could operate incorrectly during GPS week rollover
 
 v0.19 <a name="v0.19"></a>
 -----
