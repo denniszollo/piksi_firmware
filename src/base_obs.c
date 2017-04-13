@@ -76,6 +76,8 @@ static void base_pos_callback(u16 sender_id, u8 len, u8 msg[], void* context)
   wgsllh2ecef(llh, base_pos_ecef);
   base_pos_known = true;
   chMtxUnlock();
+  /* Relay base station position using sender_id = 0. */
+  sbp_send_msg_(SBP_MSG_BASE_POS, len, msg, 0);
 }
 
 /** Update the #base_obss state given a new set of obss.
